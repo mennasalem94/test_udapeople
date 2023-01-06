@@ -13,21 +13,55 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
-    - name: "wait 600 seconds for target connection to become reachable/usable."
+    # - name: "wait 600 seconds for target connection to become reachable/usable."
       # Your code here
 
     - name: "install python for Ansible."
       # Your code here
-      sudo apt update
-      sudo apt install python3-pip
+        sudo apt update
+        sudo apt install python3-pip
 
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
-    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
-    - AWS_ACCESS_KEY_ID: AKIAZCS4ECRVINJ6KNKP
-    - AWS_DEFAULT_REGION:	us-east-01
-    - AWS_SECRET_ACCESS_KEY: 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
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}" 
+    - TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
+    - TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST')}}"
+    - TYPEORM_PORT: 5432
+    - TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME')}}"
+    - TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD')}}"
+    - TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE')}}"
+    - TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
+    - TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}" 
+
     # Add more env vars here
 
   roles:
-    # Your code here
+    - name: "update apt packages."
+      become: yes
+      apt:
+        update_cache: yes
+
+    - name: "upgrade packages"
+      become: yes
+      apt:
+        upgrade: yes
+
+    - name: remove dependencies that are no longer required
+      become: yes
+      apt:
+        autoremove: yes
+
+    - name: "install dependencies."
+      become: yes
+      apt:
+        name: ["nodejs", "npm"]
+        state: latest
+        update_cache: yes
+
+    - name: "install pm2"
+      become: yes
+      npm:
+        name: pm2
+        global: yes
+        production: yes
+        state: present
