@@ -24,6 +24,9 @@
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
+    - AWS_ACCESS_KEY_ID: AKIAZCS4ECRVINJ6KNKP
+    - AWS_DEFAULT_REGION:	us-east-01
+    - AWS_SECRET_ACCESS_KEY: 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
     # Add more env vars here
 
   roles:
