@@ -77,23 +77,19 @@ jobs:
             npm install
             npm audit --audit-level=critical
 
-    # Checkout code from git
-    # Restore from cache
-    # Your job code here
-
   scan-backend:
-  docker:
-    - image: circleci/node:13.8.0
-  steps:
-    - checkout
-    - restore_cache:
-          keys: [backend-build]
-    - run:
-        name: Run backend scan
-        command: | 
-          cd backend
-          npm install
-          npm audit --audit-level=critical
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+            keys: [backend-build]
+      - run:
+          name: Run backend scan
+          command: | 
+            cd backend
+            npm install
+            npm audit --audit-level=critical
 
 workflows:
   default:
