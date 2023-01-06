@@ -1,2 +1,2 @@
 [web]
-ec2-44-211-224-51.compute-1.amazonaws.com
+ec2-54-172-122-73.compute-1.amazonaws.com
