@@ -71,16 +71,35 @@ jobs:
 
   test-frontend:
     docker:
-      # Docker image here
+      - image: circleci/node:13.8.0
     steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-test]
+      - run:
+          name: Run frontend test
+          command: |       
+            cd frontend
+            npm install
+            npm run test
       # Checkout code from git
       # Restore from cache
       # Your job code here
                 
   test-backend:
     docker:
-      # Docker image here
+      - image: circleci/node:13.8.0
     steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-test]
+      - run:
+          name: Run backend test
+          command: | 
+            cd backend
+            npm install
+            npm run test
+
       # Checkout code from git
       # Restore from cache
       # Your job code here
@@ -137,20 +156,21 @@ jobs:
 
   configure-infrastructure:
     docker:
-      # Docker image here that supports Ansible
+      - image: python:3.7-alpine3.11
     steps:
-      # Checkout code from git
-      # Add ssh keys with fingerprint
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["45:d3:cb:e0:c6:4c:d6:52:86:2e:34:f1:95:13:20:f1"]
       # attach workspace
       - run:
           name: Install dependencies
           command: |
-            # Your code here
+           apk add --update ansible
             exit 1
       - run:
           name: Configure server
           command: |
-            # Your code here
+            ansible-playbook -i inventory.txt main4.yml
             exit 1
       # Here's where you will add some code to rollback on failure      
 
