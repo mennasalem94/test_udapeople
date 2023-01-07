@@ -191,6 +191,7 @@ jobs:
     
     steps:
       - checkout
+      - run: yum install -y tar gzip
       - attach_workspace:
           at: ~/
       - run:
