@@ -190,11 +190,11 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      # - run:
-      #     name: "install python for Ansible."
-      #     command: |
-      #         apt update
-      #         apt install python3-pip
+      - run:
+          name: "install python for Ansible."
+          command: |
+              apt update
+              apt install python3-pip
 
       - run:
           name: "install dependencies."
