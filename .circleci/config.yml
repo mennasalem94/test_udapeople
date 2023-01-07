@@ -195,13 +195,14 @@ jobs:
           command: |
               sudo apt update
               sudo apt install python3-pip
+
       - run:
         - name: "install dependencies."
-        become: true
-        apt:
-          name: ["nodejs", "npm"]
-          state: latest
-          update_cache: yes
+          become: true
+          apt:
+            name: ["nodejs", "npm"]
+            state: latest
+            update_cache: yes
 
       - run:
           name: Get backend url
