@@ -193,13 +193,16 @@ jobs:
     
     steps:
       - checkout
-      - run: yum install -y tar gzip
+      - run: 
+          name: Install tar utility
+          command: |
+              yum install -y tar gzip
       - attach_workspace:
           at: ~/
       - run:
           name: "install python for Ansible."
           command: |
-              apk add --update ansible
+              sudo apk add --update ansible
               sudo apt update
               sudo apt install python3-pip
 
