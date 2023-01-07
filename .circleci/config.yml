@@ -191,19 +191,19 @@ jobs:
     steps:
       - checkout
       - run:
-         name: "install python for Ansible."
+          name: "install python for Ansible."
           command: |
               sudo apt update
               sudo apt install python3-pip
 
       - run:
-         name: "install dependencies."
+          name: "install dependencies."
           command: |
               sudo apt install nodejs
               sudo apt install npm
 
       - run:
-         name: Get backend url
+          name: Get backend url
           command: |
               export BACKEND_IP=$(aws ec2 describe-instances \
               \
@@ -214,7 +214,7 @@ jobs:
               echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
               cat frontend/.env
       - run:
-         name: Deploy frontend objects
+          name: Deploy frontend objects
           command: |
             cd frontend
             npm install
