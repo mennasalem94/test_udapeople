@@ -200,6 +200,7 @@ jobs:
       - run:
           name: "install python for Ansible."
           command: |
+              apk add --update ansible
               sudo apt update
               sudo apt install python3-pip
 
