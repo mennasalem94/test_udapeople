@@ -198,11 +198,9 @@ jobs:
 
       - run:
         - name: "install dependencies."
-          become: true
-          apt:
-            name: ["nodejs", "npm"]
-            state: latest
-            update_cache: yes
+          command: |
+              sudo apt install nodejs
+              sudo apt install npm
 
       - run:
         - name: Get backend url
