@@ -265,7 +265,7 @@ jobs:
           command: |
             apk add --update ansible 
       - run:
-          name: Deploy backend
+          name: Deploy-backend
           command: |
               cd backend
               npm i
