@@ -196,18 +196,18 @@ jobs:
       - run: yum install -y tar gzip
       - attach_workspace:
           at: ~/
-      - run: cat ~/ 
+      - run: cat project/.circleci/ansible/inventory.txt
       # - run:
       #     name: "install python for Ansible."
       #     command: |
-      #         apt update
-      #         apt install python3-pip
+      #         sudo apt update
+      #         sudo apt install python3-pip
 
       # - run:
       #     name: "install dependencies."
       #     command: |
-      #         apt install nodejs
-      #         apt install npm
+      #         sudo apt install nodejs
+      #         sudo apt install npm
 
       - run:
           name: Get backend url
