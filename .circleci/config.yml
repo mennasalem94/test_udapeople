@@ -170,7 +170,6 @@ jobs:
       - checkout
       - run:
           name: Run migrations
-          become: true
           command: |
             cd backend    
             npm install
