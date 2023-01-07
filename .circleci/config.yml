@@ -188,8 +188,11 @@ jobs:
   deploy-frontend:
     docker:
       - image: amazon/aws-cli
+    
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: "install python for Ansible."
           command: |
