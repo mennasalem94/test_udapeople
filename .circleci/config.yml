@@ -205,7 +205,7 @@ jobs:
             update_cache: yes
 
       - run:
-          name: Get backend url
+        - name: Get backend url
           command: |
               export BACKEND_IP=$(aws ec2 describe-instances \
               \
@@ -216,7 +216,7 @@ jobs:
               echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
               cat frontend/.env
       - run:
-          name: Deploy frontend objects
+        - name: Deploy frontend objects
           command: |
             cd frontend
             npm install
