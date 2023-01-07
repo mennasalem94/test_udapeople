@@ -266,7 +266,7 @@ jobs:
           name: Deploy backend
           command: |
               cd backend
-              sudo apt-get install npm
+              apt-get install npm
               npm i
               npm run build
               cd ..
