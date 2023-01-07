@@ -6,7 +6,7 @@
 
 - name: "extract the zipped artifact into the EC2 instance."
   command: |
-  tar -xvjf artifact.tar.gz -C 
+      tar -xvjf artifact.tar.gz -C 
 
 - name: "start the app."
   command: |

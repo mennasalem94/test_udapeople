@@ -261,7 +261,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible 
+              sudo apt install nodejs
       - run:
           name: Deploy backend
           command: |
