@@ -196,17 +196,21 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: "install python for Ansible."
+          name: "install awscli."
           command: |
-              sudo apk add --update ansible
-              sudo apt update
-              sudo apt install python3-pip
+              sudo apt-get install python2.7
+              curl -O https://bootstrap.pypa.io/get-pip.py
+              sudo python2.7 get-pip.py
+              sudo pip install awscli
 
       - run:
-          name: "install dependencies."
+          name: "install nodejs."
           command: |
               sudo apt install nodejs
-              sudo apt install npm
+      
+      - restore_cache:
+          keys: [frontend-build]
+
 
       - run:
           name: Get backend url
