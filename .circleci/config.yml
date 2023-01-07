@@ -261,7 +261,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-              sudo apt install nodejs
+              apt install nodejs
       - run:
           name: Deploy backend
           command: |
