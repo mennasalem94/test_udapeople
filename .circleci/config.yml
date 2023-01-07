@@ -198,10 +198,9 @@ jobs:
       - run:
           name: "install awscli."
           command: |
-              sudo apt-get install python2.7
-              curl -O https://bootstrap.pypa.io/get-pip.py
-              sudo python2.7 get-pip.py
-              sudo pip install awscli
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/installi
 
       - run:
           name: "install nodejs."
