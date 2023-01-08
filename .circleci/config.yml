@@ -266,11 +266,12 @@ jobs:
               sudo apt install awscli 
 
       - run:
-          name: "install nodejs."
+          name: "install dependencies."
           command: |
               sudo apt update
               sudo apt install nodejs
               sudo apt install npm
+              sudo apt install ansible
       
       - restore_cache:
           keys: [backend-build]
