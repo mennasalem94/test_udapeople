@@ -251,24 +251,34 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints: ["45:d3:cb:e0:c6:4c:d6:52:86:2e:34:f1:95:13:20:f1"]
       - attach_workspace:
           at: ~/
+
       - run:
-          name: Install dependencies
+          name: "install awscli."
           command: |
-              apt install nodejs
+              sudo apt update 
+              sudo apt install awscli 
+
+      - run:
+          name: "install nodejs."
+          command: |
+              sudo apt install nodejs
+      
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Deploy backend
           command: |
               cd backend
-              npm install
+              npm i
               npm run build
-              cd ..
+              # cd ..
               tar -C backend -czvf artifact.tar.gz .
               cd .circleci/ansible
               echo "Contents  of the inventory.txt file is -------"
