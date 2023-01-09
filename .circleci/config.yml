@@ -143,11 +143,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install tar utility
-          command: |
-            yum install -y tar gzip
-   
-      - run:
           name: Ensure back-end infrastructure exists
           command: |
               aws cloudformation deploy \
@@ -202,9 +197,8 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
-
+      
       - destroy-environment
-      - revert-migrations
 
   run-migrations:
     docker:
@@ -363,6 +357,26 @@ jobs:
               fi
       - destroy-environment
       - revert-migrations
+
+  # cloudfront-update:
+  #   docker:
+  #     - image: cimg/base:stable
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install tar utility
+  #         command: |
+  #           yum install -y tar gzip
+
+  #     - run:
+  #         name: Update cloudfront distribution
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file .circleci/files/cloudfront.yml \
+  #             --stack-name udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7} \
+  #             --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" 
+  #     - destroy-environment
+  #     - revert-migrations
 
 workflows:
   default:
