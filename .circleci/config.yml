@@ -49,7 +49,6 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-
       - run:
           name: Back-end build
           command: |
@@ -119,13 +118,15 @@ jobs:
   
   deploy-infrastructure:
     docker:
-      - image: cimg/base:stable
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
           name: Install tar utility
           command: |
             yum install -y tar gzip
+
+      
 
       - run:
           name: Ensure back-end infrastructure exists
@@ -149,8 +150,9 @@ jobs:
           command: |
               aws ec2 describe-instances \
               \
-                  --query 'Reservations[0].Instances[0].PublicIpAddress' | tr -d '"'
-                  --output text >> inventory.txt
+                  --query 'Reservations[0].Instances[0].PublicIpAddress' \
+                  --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+                  --output text | tr -d '"' >> inventory.txt
 
       - persist_to_workspace:
           root: ~/
