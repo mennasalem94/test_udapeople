@@ -125,16 +125,7 @@ jobs:
           name: Install tar utility
           command: |
             yum install -y tar gzip
-      - run:
-          name: "install dependencies."
-          command: |
-              sudo apt update
-              sudo apt install awscli
-              sudo apt install nodejs
-              sudo apt install npm
-              sudo apt install ansible
-              sudo npm install pm2 -g
-      
+                  
       - run:
           name: Ensure back-end infrastructure exists
           command: |
