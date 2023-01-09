@@ -129,6 +129,7 @@ jobs:
           name: "install dependencies."
           command: |
               sudo apt update
+              sudo apt install awscli
               sudo apt install nodejs
               sudo apt install npm
               sudo apt install ansible
