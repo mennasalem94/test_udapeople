@@ -1,13 +1,11 @@
 ---
 - name: "upgrade packages & install dependencies"
-  become: true
   command: |
     apt update
     apt install nodejs
     apt install npm
 
 - name: "install pm2"
-  become: true
   npm:
     name: pm2
     global: yes
