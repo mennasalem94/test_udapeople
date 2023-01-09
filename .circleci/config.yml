@@ -169,7 +169,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["45:d3:cb:e0:c6:4c:d6:52:86:2e:34:f1:95:13:20:f1"]
       - attach_workspace:
-          at: ~/
+          at: .circleci/ansible/
       # attach workspace
       - run:
           name: Install dependencies
@@ -179,6 +179,7 @@ jobs:
       - run:
           name: Configure server
           command: |
+            cat .circleci/ansible/inventory.txt
             ansible-playbook -i inventory.txt .circleci/ansible/configure-server.yml
   # Here's where you will add some code to rollback on failure 
 
@@ -210,8 +211,6 @@ jobs:
     
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
       - run:
           name: "install awscli."
           command: |
@@ -261,7 +260,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["45:d3:cb:e0:c6:4c:d6:52:86:2e:34:f1:95:13:20:f1"]
       - attach_workspace:
-          at: ~/
+          at: .circleci/ansible/
 
       - run:
           name: "install awscli."
