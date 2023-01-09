@@ -4,9 +4,13 @@
     src: ./artifact.tar.gz
     dest: /home/ubuntu/artifact.tar.gz
 
+- name: Creates directory
+  file:
+    path: /home/ubuntu/backend
+    state: directory
+
 - name: "extract the zipped artifact into the EC2 instance."
   command: |
-      mkdir backend
       cd backend
       tar -xvzf ../artifact.tar.gz
 
