@@ -172,9 +172,10 @@ jobs:
           at: ~/
       # attach workspace
       - run:
-          name: Install dependencies
+          name: "install dependencies."
           command: |
-            apk add --update ansible
+              sudo apt update
+              sudo apt install ansible
 
       - run:
           name: Configure server
