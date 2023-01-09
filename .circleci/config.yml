@@ -379,20 +379,16 @@ jobs:
               sudo apt install awscli
 
       - install_nodejs13
-      - run:
-          name: Install tar utility
-          command: |
-            yum install -y tar gzip
 
-      - run:
-          name: update cloudfront distribution
-          command: |
-              export OldworkflowID=$(aws cloudformation \
-              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-              --no-paginate --output text)
+      # - run:
+      #     name: update cloudfront distribution
+      #     command: |
+      #         export OldworkflowID=$(aws cloudformation \
+      #         list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+      #         --no-paginate --output text)
 
-              echo $oldworkflowID >> ~/OldworkflowID.txt
-              cat ~/OldworkflowID.txt
+      #         echo $oldworkflowID >> ~/OldworkflowID.txt
+      #         cat ~/OldworkflowID.txt
 
       - run:
           name: Update cloudfront distribution
