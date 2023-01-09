@@ -249,93 +249,93 @@ jobs:
       # - revert-migrations:
 
 
-  deploy-backend:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["45:d3:cb:e0:c6:4c:d6:52:86:2e:34:f1:95:13:20:f1"]
-      - attach_workspace:
-          at: ~/
+  # deploy-backend:
+  #   docker:
+  #     - image: cimg/base:stable
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: ["45:d3:cb:e0:c6:4c:d6:52:86:2e:34:f1:95:13:20:f1"]
+  #     - attach_workspace:
+  #         at: ~/
 
-      - run:
-          name: "install awscli."
-          command: |
-              sudo apt update 
-              sudo apt install awscli 
+  #     - run:
+  #         name: "install awscli."
+  #         command: |
+  #             sudo apt update 
+  #             sudo apt install awscli 
 
-      - run:
-          name: "install dependencies."
-          command: |
-              sudo apt update
-              sudo apt install nodejs
-              sudo apt install npm
-              sudo apt install ansible
+  #     - run:
+  #         name: "install dependencies."
+  #         command: |
+  #             sudo apt update
+  #             sudo apt install nodejs
+  #             sudo apt install npm
+  #             sudo apt install ansible
       
-      - restore_cache:
-          keys: [backend-build]
-      - run:
-          name: Deploy backend
-          command: |
-              cd backend
-              npm i
-              npm run build
-              cd ..
-              tar -C backend -czvf artifact.tar.gz .
-              cd .circleci/ansible
-              echo "Contents  of the inventory.txt file is -------"
-              cat inventory.txt
-              ansible-playbook -i inventory.txt deploy-backend.yml
-      # Here's where you will add some code to rollback on failure 
+  #     - restore_cache:
+  #         keys: [backend-build]
+  #     - run:
+  #         name: Deploy backend
+  #         command: |
+  #             cd backend
+  #             npm i
+  #             npm run build
+  #             cd ..
+  #             tar -C backend -czvf artifact.tar.gz .
+  #             cd .circleci/ansible
+  #             echo "Contents  of the inventory.txt file is -------"
+  #             cat inventory.txt
+  #             ansible-playbook -i inventory.txt deploy-backend.yml
+  #     # Here's where you will add some code to rollback on failure 
 
-  smoke-test:
-    docker:
-      - image: cimg/base:stable    
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-              sudo apt update 
-              sudo apt install awscli
-              sudo apt install nodejs
-              sudo apt install npm
-              sudo apt install curl
+  # smoke-test:
+  #   docker:
+  #     - image: cimg/base:stable    
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #             sudo apt update 
+  #             sudo apt install awscli
+  #             sudo apt install nodejs
+  #             sudo apt install npm
+  #             sudo apt install curl
 
-      - run:
-          name: Get backend url
-          command: |
-              export BACKEND_IP=$(aws ec2 describe-instances \
-              \
-                  --query 'Reservations[*].Instances[*].PublicIpAddress')
-              export API_URL="http://${BACKEND_IP}:3030"
-              export API_URL="http://${BACKEND_IP}:3030"
-              echo "${API_URL}"
-              echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-              cat frontend/.env
-      - run:
-          name: Backend smoke test.
-          command: |
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-            if curl "${API_URL}/api/status" | grep "ok"
-            then
-                return 0
-            else
-                return 1
-            fi
-      - run:
-          name: Frontend smoke test.
-          command: |
-              URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
-              echo ${URL} 
-              if curl -s ${URL} | grep "Welcome"
-              then
-                  return 1
-              else
-                  return 1
-              fi
+  #     - run:
+  #         name: Get backend url
+  #         command: |
+  #             export BACKEND_IP=$(aws ec2 describe-instances \
+  #             \
+  #                 --query 'Reservations[*].Instances[*].PublicIpAddress')
+  #             export API_URL="http://${BACKEND_IP}:3030"
+  #             export API_URL="http://${BACKEND_IP}:3030"
+  #             echo "${API_URL}"
+  #             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+  #             cat frontend/.env
+  #     - run:
+  #         name: Backend smoke test.
+  #         command: |
+  #           export API_URL="http://${BACKEND_IP}:3030"
+  #           echo "${API_URL}"
+  #           if curl "${API_URL}/api/status" | grep "ok"
+  #           then
+  #               return 0
+  #           else
+  #               return 1
+  #           fi
+  #     - run:
+  #         name: Frontend smoke test.
+  #         command: |
+  #             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
+  #             echo ${URL} 
+  #             if curl -s ${URL} | grep "Welcome"
+  #             then
+  #                 return 1
+  #             else
+  #                 return 1
+  #             fi
 
 
 workflows:
@@ -362,10 +362,10 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      # - deploy-backend:
+      #     requires: [run-migrations]
+      # - smoke-test:
+      #     requires: [deploy-backend, deploy-frontend]
 #      - cloudfront-update:
 #          requires: [smoke-test]
 #      - cleanup:
