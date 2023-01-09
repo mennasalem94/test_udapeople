@@ -148,8 +148,9 @@ jobs:
           command: |
               aws ec2 describe-instances \
               \
-                  --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                --output text >> inventory.txt
+                  --query 'Reservations[0].Instances[0].PublicIpAddress' \
+                  --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" | tr -d '"' \
+                  --output text >> inventory.txt
 
       - persist_to_workspace:
           root: ~/
@@ -273,6 +274,7 @@ jobs:
               sudo apt install nodejs
               sudo apt install npm
               sudo apt install ansible
+              sudo apt install pm2
       
       - restore_cache:
           keys: [backend-build]
@@ -303,6 +305,7 @@ jobs:
               sudo apt install nodejs
               sudo apt install npm
               sudo apt install curl
+              sudo apt install pm2
 
       - run:
           name: Get backend url
