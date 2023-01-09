@@ -376,7 +376,12 @@ jobs:
           name: Install tar utility
           command: |
             yum install -y tar gzip
-
+            
+      - run:
+          name: Install dependencies
+          command: |
+              sudo apt update 
+              sudo apt install awscli
       - run:
           name: Update cloudfront distribution
           command: |
