@@ -49,6 +49,7 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
+
       - run:
           name: Back-end build
           command: |
@@ -148,8 +149,7 @@ jobs:
           command: |
               aws ec2 describe-instances \
               \
-                  --query 'Reservations[0].Instances[0].PublicIpAddress' \
-                  --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+                  --query 'Reservations[0].Instances[0].PublicIpAddress' | tr -d '"'
                   --output text >> inventory.txt
 
       - persist_to_workspace:
