@@ -1,20 +1,10 @@
 ---
-- name: "update apt packages."
+- name: "upgrade packages & install dependencies"
   become: true
-  apt:
-    update_cache: yes
-    
-- name: "upgrade packages."
-  become: true
-  apt:
-    upgrade: "yes"
-
-- name: "install dependencies."
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+  command: |
+    apt update
+    apt install nodejs
+    apt install npm
 
 - name: "install pm2"
   become: true
