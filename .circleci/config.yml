@@ -421,8 +421,8 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
-            export OldWorkflowID=$(cat OldWorkflowID.txt)
-            cat OldWorkflowID.txt
+            export OldWorkflowID=$(cat .circleci/OldWorkflowID.txt)
+            cat .circleci/OldWorkflowID.txt
             echo OldWorkflowID: "${OldWorkflowID}"
             echo current workflow id: "${CIRCLE_WORKFLOW_ID:0:7}"
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
