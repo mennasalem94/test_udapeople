@@ -399,8 +399,8 @@ jobs:
           paths: 
             - project/.circleci/OldWorkflowID.txt
                       
-      # - destroy-environment
-      # - revert-migrations
+      - destroy-environment
+      - revert-migrations
 
   cleanup:
     docker:
@@ -414,7 +414,6 @@ jobs:
               sudo apt install awscli
 
       - install_nodejs13
-
       - attach_workspace:
           at: ~/     
       - run:
@@ -434,6 +433,27 @@ jobs:
             echo "--------cannot Cleanup-----------------"
             fi
 
+  # add-prometheus-node-exporter:
+  #     docker:
+  #       - image: python:3.7-alpine3.16
+  #     steps:
+  #       - checkout
+  #       - add_ssh_keys:
+  #           fingerprints: ["f1:89:55:90:b0:4f:3f:78:a0:11:57:03:cf:6d:b3:e0"]
+  #       - run:
+  #           name: Install dependencies
+  #           command: |
+  #             apk add --update aws-cli tar gzip ansible nodejs npm
+  #       - attach_workspace:
+  #           at: ~/
+  #       - run:
+  #           name: Setup Prometheus Node Exporter
+  #           command: |
+  #             cd .circleci/ansible
+  #             cat inventory.txt
+  #             export ANSIBLE_HOST_KEY_CHECKING=False                        
+  #             ansible-playbook -i inventory.txt node-exporter.yml
+
 workflows:
   default:
     jobs:
@@ -449,9 +469,9 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          # filters:
-          #   branches:
-          #     only: [test-feature-branch]
+          filters:
+            branches:
+              only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
