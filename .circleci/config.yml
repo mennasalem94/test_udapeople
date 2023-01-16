@@ -433,27 +433,6 @@ jobs:
             echo "--------cannot Cleanup-----------------"
             fi
 
-  add-prometheus-node-exporter:
-    docker:
-      - image: python:3.7-alpine3.16
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["45:d3:cb:e0:c6:4c:d6:52:86:2e:34:f1:95:13:20:f1"]
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update aws-cli tar gzip ansible nodejs npm
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Setup Prometheus Node Exporter
-          command: |
-            cd .circleci/ansible
-            cat inventory.txt
-            export ANSIBLE_HOST_KEY_CHECKING=False                        
-            ansible-playbook -i inventory.txt node-exporter.yml
-
 workflows:
   default:
     jobs:
@@ -472,10 +451,8 @@ workflows:
           # filters:
           #   branches:
           #     only: [main]
-      - add-prometheus-node-exporter:
-          requires: [deploy-infrastructure]   
       - configure-infrastructure:
-          requires: [add-prometheus-node-exporter]
+          requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
